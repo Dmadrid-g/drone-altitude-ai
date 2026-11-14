@@ -8,7 +8,7 @@ Aplicación web académica que estima la altura de un dron a partir de dos varia
 
 Desarrollar una aplicación que reciba temperatura y presión atmosférica, procese esos datos mediante una RNA y muestre una altura estimada en metros.
 
-## 🧠 ¿Cómo funciona?
+##  ¿Cómo funciona?
 
 El proyecto se divide en dos partes:
 
@@ -42,7 +42,7 @@ La temperatura ingresada se utiliza como aproximación de la temperatura media d
 
 Para una validación experimental, se deben reemplazar los datos sintéticos por registros sincronizados de temperatura, presión y altura real, y calibrar el sistema con mediciones del lugar y momento del ensayo.
 
-## 🗂️ Estructura del proyecto
+##  Estructura del proyecto
 
 ```text
 drone-altitude-ai/
@@ -65,7 +65,7 @@ La carpeta `model/` y sus archivos se crean automáticamente al ejecutar el entr
 - Python 3.10, 3.11 o 3.12.
 - Conexión a internet para instalar las dependencias.
 
-## ▶️ Instalación y ejecución en Windows
+##  Instalación y ejecución en Windows
 
 ### 1. Descargar el proyecto
 
@@ -115,7 +115,7 @@ Introduce la temperatura y la presión atmosférica y pulsa **CALCULAR ALTURA ES
 
 Para detener el servidor, vuelve a la terminal y presiona `Ctrl + C`.
 
-## 📊 Evaluación del modelo
+##  Evaluación del modelo
 
 Durante el entrenamiento se calculan tres métricas:
 
@@ -125,7 +125,7 @@ Durante el entrenamiento se calculan tres métricas:
 
 Los valores que aparecen corresponden a una prueba con datos sintéticos. No deben interpretarse como una medida de precisión en vuelos reales.
 
-## 🛠️ Tecnologías utilizadas
+## Tecnologías utilizadas
 
 - Python
 - NumPy y Pandas
@@ -140,6 +140,4 @@ Los valores que aparecen corresponden a una prueba con datos sintéticos. No deb
 **Daniel Madrid Giraldo**  
 Proyecto académico – Ingeniería de Software
 
-## 📄 Licencia
 
-Uso académico y educativo.
