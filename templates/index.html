@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drone Altitude AI</title>
+<style>
+:root{--bg:#081321;--panel:#112238;--panel2:#172d46;--cyan:#38bdf8;--text:#eef7ff;--muted:#9bb0c7;--line:#29435f}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 80% 0%,#163653 0,transparent 35%),var(--bg);font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--text);display:flex;justify-content:center;padding:36px 16px}
+main{width:100%;max-width:900px}.top{display:flex;align-items:center;gap:14px;margin-bottom:28px}.logo{width:48px;height:48px;border-radius:15px;background:#123b59;display:grid;place-items:center;font-size:25px;border:1px solid #246087}.eyebrow{color:var(--cyan);font-size:12px;font-weight:700;letter-spacing:2px}.top h1{font-size:24px;margin:4px 0}.sub{color:var(--muted);margin:0;font-size:14px}
+.card{background:linear-gradient(145deg,rgba(20,42,65,.98),rgba(13,29,47,.98));border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:0 18px 55px #0005}
+.intro{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:25px}.intro h2{margin:0 0 8px;font-size:22px}.intro p{margin:0;color:var(--muted);line-height:1.5}.pill{white-space:nowrap;border:1px solid #27634f;color:#7ce4b0;background:#103b34;padding:7px 11px;border-radius:99px;font-size:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field{background:#0c1d30;border:1px solid var(--line);border-radius:15px;padding:17px}.field label{display:block;color:#c4d4e5;font-size:13px;margin-bottom:10px}.field input{width:100%;background:transparent;border:0;outline:0;color:white;font-size:27px;font-weight:650}.unit{color:var(--muted);font-size:12px;margin-top:5px}
+button{width:100%;margin-top:19px;padding:16px;border:0;border-radius:13px;background:linear-gradient(90deg,#0284c7,#0ea5e9);color:white;font-size:14px;font-weight:800;letter-spacing:.7px;cursor:pointer;transition:.2s}button:hover{filter:brightness(1.12);transform:translateY(-1px)}button:disabled{opacity:.6;cursor:wait}
+.result{margin-top:20px;padding:22px;border-radius:16px;background:linear-gradient(135deg,#0d344b,#102a40);border:1px solid #1c5874;text-align:center}.result .label{font-size:12px;color:#9fc7db;letter-spacing:1.5px;font-weight:700}.number{font-size:48px;font-weight:800;margin:8px 0;color:#7dd3fc}.number small{font-size:19px;color:#b5d8e8}.status{color:#b5c9d9;font-size:13px;min-height:18px}.note{margin-top:20px;color:#91a8bd;font-size:12px;line-height:1.6}.note strong{color:#c5d8e8}
+@media(max-width:600px){body{padding:20px 12px}.card{padding:19px}.grid{grid-template-columns:1fr}.intro{display:block}.pill{display:inline-block;margin-top:14px}.number{font-size:40px}}
+</style>
+</head>
+<body>
+<main>
+  <header class="top">
+    <div class="logo">🚁</div>
+    <div><div class="eyebrow">INTELIGENCIA ARTIFICIAL</div><h1>DRONE ALTITUDE AI</h1><p class="sub">Estimación de altura mediante una red neuronal artificial</p></div>
+  </header>
+  <section class="card">
+    <div class="intro">
+      <div><h2>Simulador de vuelo</h2><p>Introduce las condiciones atmosféricas para estimar la altura del dron.</p></div>
+      <span class="pill">● Modelo RNA activo</span>
+    </div>
+    <div class="grid">
+      <div class="field"><label for="temperature">🌡 Temperatura atmosférica</label><input id="temperature" type="number" value="20" step="0.1" min="-30" max="60"><div class="unit">Grados Celsius (°C)</div></div>
+      <div class="field"><label for="pressure">◉ Presión atmosférica</label><input id="pressure" type="number" value="980" step="0.1" min="650" max="1050"><div class="unit">Hectopascales (hPa)</div></div>
+    </div>
+    <button id="calculate" onclick="calculate()">CALCULAR ALTURA ESTIMADA</button>
+    <div class="result">
+      <div class="label">ALTURA ESTIMADA DEL DRON</div>
+      <div class="number"><span id="altitude">—</span> <small>m</small></div>
+      <div class="status" id="status" aria-live="polite">Ingresa los datos y presiona calcular.</div>
+    </div>
+    <div class="note"><strong>Nota académica:</strong> esta versión utiliza datos sintéticos y una presión de referencia estándar de 1013.25 hPa para demostrar el funcionamiento de la RNA. La estimación no sustituye un altímetro calibrado ni debe usarse para controlar un dron real.</div>
+  </section>
+</main>
+<script>
+async function calculate(){
+  const button=document.getElementById('calculate');
+  const status=document.getElementById('status');
+  const altitude=document.getElementById('altitude');
+  const temperature=Number(document.getElementById('temperature').value);
+  const pressure=Number(document.getElementById('pressure').value);
+  if(!Number.isFinite(temperature)||!Number.isFinite(pressure)){status.textContent='Por favor, completa ambos campos con números.';return;}
+  button.disabled=true;button.textContent='CALCULANDO...';status.textContent='La red neuronal está procesando los datos.';
+  try{
+    const response=await fetch('/predict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({temperature,pressure})});
+    const data=await response.json();
+    if(!response.ok)throw new Error(data.error||'No fue posible calcular la altura.');
+    altitude.textContent=data.altitude.toLocaleString('es-CO',{maximumFractionDigits:2});
+    status.textContent='Predicción generada correctamente por el modelo RNA.';
+  }catch(error){status.textContent=error.message;altitude.textContent='—';}
+  finally{button.disabled=false;button.textContent='CALCULAR ALTURA ESTIMADA';}
+}
+</script>
+</body>
+</html>
