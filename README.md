@@ -1,6 +1,12 @@
-# 🚁 Drone Altitude AI
+## 🚀 Aplicación en línea
 
-Aplicación web académica que estima la altura de un dron a partir de dos variables atmosféricas: **temperatura (°C)** y **presión atmosférica (hPa)**. El proyecto entrena una Red Neuronal Artificial (RNA) y permite consultar sus predicciones desde una interfaz web.
+Puedes probar Drone Altitude AI directamente desde el navegador:
+
+👉 [Abrir Drone Altitude AI](https://drone-altitude-ai.onrender.com)
+
+**Nota:** La aplicación está alojada en Render mediante el plan gratuito.
+Si permanece inactiva durante aproximadamente 15 minutos, puede tardar
+50 segundos o más en responder cuando se vuelva a abrir.
 
 > **Alcance:** prototipo demostrativo. El modelo inicial se entrena con datos sintéticos generados por una aproximación atmosférica; no está calibrado con vuelos ni mediciones reales. No debe utilizarse para navegación o control de un dron real.
 
